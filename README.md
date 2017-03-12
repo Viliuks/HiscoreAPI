@@ -5,7 +5,7 @@ This Hiscore api utilizes [JSON](https://github.com/stleary/JSON-java) to parse 
 `player.getSkillLevel(Skill.OVERALL);`
 
 ###or
-`new HiscorePlayer(username).getSkillLevel(SKILL.ATTACK);`
-
+`new HiscorePlayer(username).getSkillLevel(Skill.ATTACK);`
+####Make sure you are using smpl.api.Skill class rather than OSBots.
 ##Skills
 Every skill is supported.
