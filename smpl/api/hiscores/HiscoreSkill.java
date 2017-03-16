@@ -6,11 +6,12 @@ package smpl.api.hiscores;
  */
 public class HiscoreSkill {
 	private int level, xp;
-	private String name;
+	private Skill skill;
 
-	public HiscoreSkill(String name, int level, int xp) {
+	public HiscoreSkill(Skill skill, int level, int xp) {
 		this.level = level;
 		this.xp = xp;
+		this.skill = skill;
 	}
 
 	public int getLevel() {
@@ -20,7 +21,7 @@ public class HiscoreSkill {
 	public int getXp() {
 		return xp;
 	}
-	public String getName(){
-		return name;
+	public Skill getSkill(){
+		return skill;
 	}
 }
