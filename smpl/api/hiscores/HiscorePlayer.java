@@ -2,13 +2,14 @@ package smpl.api.hiscores;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 /**
  * 
  * @author Vilius
  *
  */
 public final class HiscorePlayer {
-	private ArrayList<HiscoreSkill> skillsList = new ArrayList<HiscoreSkill>();
+	private List<HiscoreSkill> skillsList = new ArrayList<HiscoreSkill>();
 	private String currName;
 
 	public HiscorePlayer(String currName) throws IOException {
