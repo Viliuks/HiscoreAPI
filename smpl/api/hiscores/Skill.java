@@ -9,7 +9,7 @@ public enum Skill {
 	ATTACK(1), 
 	DEFENCE(2), 
 	STRENGTH(3), 
-	HITPOINTS(4), 
+	CONSTITUTION(4), 
 	RANGE(5), 
 	PRAYER(6), 
 	MAGIC(7), 
