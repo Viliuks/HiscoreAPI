@@ -6,24 +6,19 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONObject;
+
 /**
  * 
  * @author Vilius
  *
  */
 public final class HiscoreParser {
-	private String url = "https://www.tip.it/runescape/json/hiscore_user?rsn=";
-	private String[] skillArray = new String[] { "Overall", "Attack", "Defence", "Strength", "Constitution", "Range",
-			"Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", "Fishing", "Firemaking", "Crafting", "Smithing",
-			"Mining", "Herblore", "Agility", "Thieving", "Slayer", "Farming", "Runecrafting", "Hunter",
-			"Construction" };
-	private ArrayList<HiscoreSkill> tmp = new ArrayList<HiscoreSkill>();
+	private final String url = "https://www.tip.it/runescape/json/hiscore_user?rsn=";
 
-	public HiscoreParser() {
-
-	}	
+	private List<HiscoreSkill> tmp = new ArrayList<HiscoreSkill>();
 
 	private String cleanUsername(String username) {
 		return username.replaceAll("\\u00a0", " ");
@@ -36,20 +31,20 @@ public final class HiscoreParser {
 	private String getRawSkills(String username) throws IOException {
 		URL u = new URL(getEncodedUrl(username));
 		URLConnection conn = u.openConnection();
-		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		StringBuffer buffer = new StringBuffer();
-		String inputLine;
-		while ((inputLine = in.readLine()) != null)
-			buffer.append(inputLine);
-		in.close();
-		return buffer.toString();
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+			StringBuffer buffer = new StringBuffer();
+			String inputLine;
+			while ((inputLine = reader.readLine()) != null)
+				buffer.append(inputLine);
+			return buffer.toString();
+		}
 	}
 
-	public ArrayList<HiscoreSkill> parseSkills(String username) throws IOException {
+	public List<HiscoreSkill> parseSkills(String username) throws IOException {
 		JSONObject obj = new JSONObject(getRawSkills(username)).getJSONObject("stats");
-		for (int i = 0; i < skillArray.length; i++) {
-			JSONObject o = obj.getJSONObject(skillArray[i].toLowerCase());
-			tmp.add(new HiscoreSkill(o.toString(), o.getInt("level"), o.getInt("exp")));
+		for (Skill skill : Skill.values()) {
+			JSONObject o = obj.getJSONObject(skill.name().toLowerCase());
+			tmp.add(new HiscoreSkill(skill, o.getInt("level"), o.getInt("exp")));
 		}
 		return tmp;
 	}
